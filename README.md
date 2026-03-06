@@ -104,13 +104,7 @@ from gpstest_parser import parse_gpstest_log
 
 log = parse_gpstest_log("opensource/demoFiles/pseudoranges_log_2016_08_22_14_45_50.txt")
 print(log.version, log.platform)
-
-# Wrapper helpers:
-raw_rows = log.get_records("Raw")
-fix_coords = log.select("Fix", ["Provider", "Latitude", "Longitude"])
-
-# Optional pandas conversion:
-# df = log.to_dataframe("Raw")
+print(len(log.records["Raw"]))
 ```
 
 The parser reads comment-based headers (e.g. `# Raw,...`) and returns typed values for each record type (`Raw`, `Fix`, `Nav`, etc.).

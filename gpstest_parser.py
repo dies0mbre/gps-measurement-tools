@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 import csv
 import re
-from typing import Any, Iterable
+from typing import Any
 
 _INT_RE = re.compile(r"^[+-]?\d+$")
 _FLOAT_RE = re.compile(
@@ -35,43 +35,6 @@ class GpsTestLog:
     platform: str | None = None
     headers: dict[str, list[str]] = field(default_factory=dict)
     records: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
-
-    def get_records(self, record_type: str) -> list[dict[str, Any]]:
-        """Return all rows for a record type.
-
-        Example:
-            raw_rows = log.get_records("Raw")
-            fix_rows = log.get_records("Fix")
-        """
-
-        return self.records.get(record_type, [])
-
-    def select(self, record_type: str, fields: Iterable[str]) -> list[dict[str, Any]]:
-        """Return selected fields for each row of a record type.
-
-        Missing fields are returned as ``None`` for each row.
-        """
-
-        selected_fields = list(fields)
-        output: list[dict[str, Any]] = []
-        for row in self.get_records(record_type):
-            output.append({field: row.get(field) for field in selected_fields})
-        return output
-
-    def to_dataframe(self, record_type: str):
-        """Convert rows for one record type into a pandas DataFrame.
-
-        Raises:
-            ImportError: if pandas is not installed.
-        """
-
-        try:
-            import pandas as pd
-        except ImportError as exc:
-            raise ImportError(
-                "pandas is required for to_dataframe(); install it with `pip install pandas`."
-            ) from exc
-        return pd.DataFrame(self.get_records(record_type))
 
 
 @dataclass(slots=True)
