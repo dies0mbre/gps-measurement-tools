@@ -94,6 +94,21 @@ edit the name of the unzip utility:
 If you uncompress the file 'by hand' and rerun GetNasaHourlyEphemeris.m, it will
 read the uncompressed file.
 
+
+# Python 3.11 GPSTest parser
+
+A lightweight Python 3.11 module for parsing GPSTest/GnssLogger text logs is included as `gpstest_parser.py`.
+
+```python
+from gpstest_parser import parse_gpstest_log
+
+log = parse_gpstest_log("opensource/demoFiles/pseudoranges_log_2016_08_22_14_45_50.txt")
+print(log.version, log.platform)
+print(len(log.records["Raw"]))
+```
+
+The parser reads comment-based headers (e.g. `# Raw,...`) and returns typed values for each record type (`Raw`, `Fix`, `Nav`, etc.).
+
 # GNSSLogger
 
 Sample App that allows registering for various Android location related measurements,
